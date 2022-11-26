@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <link rel="stylesheet" href="resources/css/styles.css" />
+    <link rel="icon" type="image/png" href="resources/img/logoIcon.png"/>
+    <title>Ver prestamos</title>
+</h:head>
+
+
+<h:body>
+    <f:metadata>
+        <f:viewAction action="#{usuariosBeans.usuarioNoLogueado}"/>
+    </f:metadata>
+    <!-- NAVBAR -->
+    <ui:include src="nav.xhtml"/><br/><br/>
+
+    <div style="width: 70%; margin: 0 auto">
+        <h1 style="text-align: center; margin-bottom: 5%; margin-top: 5%">Ver prestamos por estado</h1>
+
+        <p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate/>
+        </p:messages>
+
+        <h:form id="datos">
+            <div class="card">
+
+                    <p:tabMenu activeIndex="#{param.i}" style="width: 40%; margin: 0 auto;">
+                        <p:menuitem value="Ver todos" outcome="ver_prestamos" >
+                            <f:param name="i" value="0"/>
+                        </p:menuitem>
+                        <p:menuitem value="Solicitados" outcome="Aprobar_denegar">
+                            <f:param name="i" value="1"/>
+                        </p:menuitem>
+                        <p:menuitem value="Prestados" outcome="Prestamos_prestados">
+                            <f:param name="i" value="2"/>
+                        </p:menuitem>
+                        <p:menuitem value="Retrasados" outcome="Prestamos_retrasados" >
+                            <f:param name="i" value="3"/>
+                        </p:menuitem>
+                        <p:menuitem value="Devueltos" outcome="Prestamos_devueltos" >
+                            <f:param name="i" value="4"/>
+                        </p:menuitem>
+                        <p:menuitem value="Cancelados" outcome="Prestamos_cancelados" >
+                            <f:param name="i" value="5"/>
+                        </p:menuitem>
+                    </p:tabMenu>
+
+            </div>
+        </h:form>
+
+
+    </div>
+</h:body>
+</html>

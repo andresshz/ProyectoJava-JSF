@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Title</title>
+</h:head>
+
+<h:body>
+    <!-- NAVBAR -->
+    <h:form>
+        <p:menubar>
+            <!-- CARGO ADMINISTRADOR -->
+            <c:if test="${session.getAttribute('idCargo') eq '1'}">
+                <p:submenu label="Inicio" icon="pi pi-home">
+                    <p:menuitem value="Ir a inicio"
+                                url="home.xhtml"/>
+                </p:submenu>
+
+                <p:submenu label="Gestionamiento" icon="pi pi-briefcase">
+                    <p:menuitem value="Ver autores" url="ver_autores.xhtml"/>
+                    <p:menuitem value="Ver editoriales" url="ver_editoriales.xhtml"/>
+                    <p:menuitem value="Ver géneros" url="GenerosData.xhtml"/>
+                    <p:menuitem value="Ver libros" url="ver_libros.xhtml"/>
+                    <p:submenu label="Ver usuarios">
+                        <p:menuitem value="Administradores" url="ver_administradores.xhtml"/>
+                        <p:menuitem value="Bibliotecarios" url="ver_bibliotecarios.xhtml"/>
+                        <p:menuitem value="Estudiantes" url="ver_estudiantes.xhtml"/>
+                        <p:menuitem value="Profesores" url="ver_profesores.xhtml"/>
+                        <p:menuitem value="Otros" url="ver_usuarios_externos.xhtml"/>
+                    </p:submenu>
+                    <p:menuitem value="Ver historial de prestamos" url="ver_prestamos.xhtml"/>
+
+                </p:submenu>
+
+                <p:submenu label="Mi cuenta" icon="pi pi-lock">
+                    <p:menuitem value="Configuración" url="#"/>
+                </p:submenu>
+
+                <f:facet name="options">
+                    <h:commandButton value="Cerrar sesión"
+                                     style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#337ab7;border-color:#2e6da4;"
+                                     action="#{usuariosBeans.cerrarSesion()}"/>
+                </f:facet>
+            </c:if>
+            <!-- CARGO BIBLIOTECARIO -->
+            <c:if test="${session.getAttribute('idCargo') eq '2'}">
+                <p:submenu label="Inicio" icon="pi pi-home">
+                    <p:menuitem value="Ir a inicio"
+                                url="home.xhtml"/>
+                </p:submenu>
+
+                <p:submenu label="Gestionamiento" icon="pi pi-briefcase">
+                    <p:menuitem value="Ver autores" url="ver_autores.xhtml"/>
+                    <p:menuitem value="Ver editoriales" url="ver_editoriales.xhtml"/>
+                    <p:menuitem value="Ver géneros" url="GenerosData.xhtml"/>
+                    <p:menuitem value="Ver libros" url="ver_libros.xhtml"/>
+                    <p:menuitem value="Ver historial de prestamos" url="ver_prestamos.xhtml"/>
+                </p:submenu>
+
+                <p:submenu label="Mi cuenta" icon="pi pi-lock">
+                    <p:menuitem value="Configuración" url="#"/>
+                </p:submenu>
+
+                <f:facet name="options">
+                    <h:commandButton value="Cerrar sesión"
+                                     style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#337ab7;border-color:#2e6da4;"
+                                     action="#{usuariosBeans.cerrarSesion()}"/>
+                </f:facet>
+            </c:if>
+            <!-- CARGO ESTUDIANTE/DOCENTE/USUARIO EXTERNO -->
+            <c:if test="${session.getAttribute('idCargo') eq '3'}">
+                <p:submenu label="Inicio" icon="pi pi-home">
+                    <p:menuitem value="Ir a inicio"
+                                url="home.xhtml"/>
+                </p:submenu>
+
+                <p:submenu label="Gestionamiento" icon="pi pi-briefcase">
+                    <p:menuitem value="Ver libros" url="ver_libros_prestar.xhtml"/>
+                    <p:menuitem value="Ver mis prestamos" url="ver_prestamos_usuarios.xhtml"/>
+                </p:submenu>
+
+                <p:submenu label="Mi cuenta" icon="pi pi-lock">
+                    <p:menuitem value="Configuración" url="#"/>
+                </p:submenu>
+
+                <f:facet name="options">
+                    <h:commandButton value="Cerrar sesión"
+                                     style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#337ab7;border-color:#2e6da4;"
+                                     action="#{usuariosBeans.cerrarSesion()}"/>
+                </f:facet>
+            </c:if>
+            <!-- CARGO ESTUDIANTE/DOCENTE/USUARIO EXTERNO -->
+            <c:if test="${session.getAttribute('idCargo') eq '4'}">
+                <p:submenu label="Inicio" icon="pi pi-home">
+                    <p:menuitem value="Ir a inicio"
+                                url="home.xhtml"/>
+                </p:submenu>
+
+                <p:submenu label="Gestionamiento" icon="pi pi-briefcase">
+                    <p:menuitem value="Ver libros" url="ver_libros_prestar.xhtml"/>
+                    <p:menuitem value="Ver mis prestamos" url="ver_prestamos_usuarios.xhtml"/>
+                </p:submenu>
+
+                <p:submenu label="Mi cuenta" icon="pi pi-lock">
+                    <p:menuitem value="Configuración" url="#"/>
+                </p:submenu>
+
+                <f:facet name="options">
+                    <h:commandButton value="Cerrar sesión"
+                                     style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#337ab7;border-color:#2e6da4;"
+                                     action="#{usuariosBeans.cerrarSesion()}"/>
+                </f:facet>
+            </c:if>
+            <!-- CARGO ESTUDIANTE/DOCENTE/USUARIO EXTERNO -->
+            <c:if test="${session.getAttribute('idCargo') eq '5'}">
+                <p:submenu label="Inicio" icon="pi pi-home">
+                    <p:menuitem value="Ir a inicio"
+                                url="home.xhtml"/>
+                </p:submenu>
+
+                <p:submenu label="Gestionamiento" icon="pi pi-briefcase">
+                    <p:menuitem value="Ver libros" url="ver_libros_prestar.xhtml"/>
+                    <p:menuitem value="Ver mis prestamos" url="ver_prestamos_usuarios.xhtml"/>
+                </p:submenu>
+
+                <p:submenu label="Mi cuenta" icon="pi pi-lock">
+                    <p:menuitem value="Configuración" url="#"/>
+                </p:submenu>
+
+                <f:facet name="options">
+                    <h:commandButton value="Cerrar sesión"
+                                     style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#337ab7;border-color:#2e6da4;"
+                                     action="#{usuariosBeans.cerrarSesion()}"/>
+                </f:facet>
+            </c:if>
+        </p:menubar>
+    </h:form>
+</h:body>
+
+</html>

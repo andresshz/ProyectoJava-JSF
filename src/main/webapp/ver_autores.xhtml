@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <h:outputStylesheet name="css/styles.css"/>
+    <title>Title</title>
+</h:head>
+
+<h:body>
+    <f:metadata>
+        <f:viewAction action="#{usuariosBeans.usuarioNoLogueado}"/>
+    </f:metadata>
+    <!-- NAVBAR -->
+    <ui:include src="nav.xhtml"/><br/><br/>
+
+    <!-- FORMULARIO -->
+    <p:dialog header="Detalles del autor" showEffect="fade" modal="true" widgetVar="manageProductDialog"
+              resizable="false">
+        <h:form id="form_">
+            <p:panelGrid columns="2">
+                <p:outputLabel for="nombres">Nombres</p:outputLabel>
+                <p:inputText id="nombres" value="#{autoresBeans.autoresEntity.nombres}" required="true"/>
+
+                <p:outputLabel for="apellidos">Apellidos</p:outputLabel>
+                <p:inputText id="apellidos" value="#{autoresBeans.autoresEntity.apellidos}" required="true"/>
+
+                <p:outputLabel for="nombre">Nacionalidad</p:outputLabel>
+                <p:inputText id="nombre" value="#{autoresBeans.autoresEntity.nacionalidad}" required="true"/>
+
+                <h:commandButton value="Guardar"
+                                 style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#5cb85c;border-color:#4cae4c"
+                                 process="@parent" action="#{autoresBeans.insertarAutor()}"/>
+                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageProductDialog').hide()"
+                                 class="ui-button-secondary" type="button"/>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+
+    <div class="contenedor">
+        <div class="contenido">
+            <h2 style="font-weight: 600; width: 100%; text-align: center;"> Tabla Autores</h2><br/>
+
+            <p:commandButton value="Nuevo autor" icon="pi pi-plus" update=":form"
+                             oncomplete="PF('manageProductDialog').show()" styleClass="ui-button-success"
+                             style="margin-right: .5rem">
+                <p:resetInput target=":form"/>
+            </p:commandButton>
+
+            <br/><br/>
+
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages><br/><br/>
+
+            <h:form id="form">
+                <p:dataTable id="tabla" var="a" value="#{autoresBeans.listaAutores()}" editable="true">
+                    <p:column headerText="ID">
+                        <h:outputText value="#{a.idAutor}"/>
+                    </p:column>
+
+                    <p:column headerText="Nombres">
+                        <h:outputText value="#{a.nombres}"/>
+                    </p:column>
+
+                    <p:column headerText="Apellidos">
+                        <h:outputText value="#{a.apellidos}"/>
+                    </p:column>
+
+                    <p:column headerText="Nacionalidad">
+                        <h:outputText value="#{a.nacionalidad}"/>
+                    </p:column>
+
+                    <p:column headerText="Opciones">
+                        <c:if test="${session.getAttribute('idCargo') eq '2'}">
+                            <h:commandButton style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;
+                line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;
+                touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;
+                user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;
+                background-color:#337ab7;border-color:#2e6da4;" value="Modificar"
+                                             action="#{autoresBeans.editarAutor(a)}"/>
+                            <h:commandButton style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;
+                font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;
+                -ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;
+                -webkit-user-select:none;-moz-user-select:none;
+                -ms-user-select:none;user-select:none;background-image:none;
+                border:1px solid transparent;border-radius:4px; color:#fff;background-color:#d9534f;
+                border-color:#d43f3a;" value="Eliminar" action="#{autoresBeans.eliminarAutor(a.idAutor)}"
+                                             onclick="return confirmarEliminacion();"/>
+                        </c:if>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </div>
+    </div>
+
+    <h:outputScript>
+        function confirmarEliminacion() {
+            return confirm("¿Está seguro que desea eliminar este autor?");
+        }
+    </h:outputScript>
+</h:body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <h:outputStylesheet name="css/styles.css"/>
+    <title>Acciones</title>
+</h:head>
+
+<h:body>
+    <f:metadata>
+        <f:viewAction action="#{usuariosBeans.usuarioNoLogueado}"/>
+    </f:metadata>
+    <!-- NAVBAR -->
+    <ui:include src="nav.xhtml"/><br/><br/>
+
+    <div class="contenedor">
+        <div class="contenido">
+            <h:form>
+                <div class="card">
+                    <h:outputText value="Historial de prestamos"
+                                  style="font-weight: bold; font-size: 22px;"/><br/><br/>
+                    <h:commandButton
+                            style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#A30015;border-color:#A30015;"
+                            value="PDF"
+                            action="#{prestamosBeans.crearPDF(usuario.idUsuario)}"/><br/><br/>
+
+                    <p:messages id="messages" showDetail="true" closable="true">
+                        <p:autoUpdate/>
+                    </p:messages><br/><br/>
+
+                    <p:dataTable value="#{usuariosBeans.verHistorialPrestamos(usuario.idUsuario)}" var="user"
+                                 allowUnsorting="true" sortMode="single">
+
+                        <p:column sortBy="#{user.codigoPrestamo}" headerText="Código prestamo">
+                            <h:outputText value="#{user.codigoPrestamo}"/>
+                        </p:column>
+
+                        <p:column sortBy="#{user.usuariosByIdUsuarioPrestador.nombres}" headerText="Usuario prestador">
+                            <h:outputText
+                                    value="#{user.usuariosByIdUsuarioPrestador.nombres} #{user.usuariosByIdUsuarioPrestador.apellidos}"/>
+                        </p:column>
+
+                        <p:column sortBy="#{user.fechaInicio}" headerText="Fecha inicio">
+                            <h:outputText value="#{user.fechaInicio}"/>
+                        </p:column>
+
+                        <p:column sortBy="#{user.fechaFin}" headerText="Fecha final">
+                            <h:outputText value="#{user.fechaFin}"/>
+                        </p:column>
+                    </p:dataTable><br/><br/>
+                </div>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+
+</html>

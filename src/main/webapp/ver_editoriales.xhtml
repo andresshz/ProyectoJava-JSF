@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <link rel="stylesheet" href="resources/css/styles.css" />
+    <title>Editoriales</title>
+</h:head>
+
+<h:body>
+    <f:metadata>
+        <f:viewAction action="#{usuariosBeans.usuarioNoLogueado}"/>
+    </f:metadata>
+    <!-- NAVBAR -->
+    <ui:include src="nav.xhtml"/><br/><br/>
+
+    <!-- CONTENIDO -->
+    <div class="contenedor">
+        <div class="contenido">
+
+            <h:outputText value="Editoriales" style="font-weight: bold; font-size: 22px;"/><br/><br/>
+            <p:commandButton value="Nueva Editorial" icon="pi pi-plus"
+                             update=":form" oncomplete="PF('manageProductDialog').show()"
+                             styleClass="ui-button-success" style="margin-right: .5rem">
+                <p:resetInput target=":form"/>
+            </p:commandButton>
+            <br/><br/>
+
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+
+            <h:form id="datos">
+                <div class="card">
+                    <p:dataTable id="dt-libros" widgetVar="dtLibros" var="e" value="#{editorialBeans.listaEditorial()}"
+                                 reflow="true" styleClass="lib-table" selection="#{editorialBeans.listaEditorial()}"
+                                 rowKey="#{e.idEditorial}" paginator="true" rows="10" rowSelectMode="add"
+                                 paginatorPosition="bottom">
+
+                        <p:column headerText="Nombre Editorial">
+                            <h:outputText value="#{e.nombreEditorial}"/>
+                        </p:column>
+
+                        <p:column headerText="Contacto">
+                            <h:outputText value="#{e.contacto}"/>
+                        </p:column>
+
+                        <p:column headerText="Teléfono">
+                            <h:outputText value="#{e.telefono}"/>
+                        </p:column>
+
+                        <p:column headerText="Dirección">
+                            <h:outputText value="#{e.direccion}"/>
+                        </p:column>
+
+                        <p:column headerText="Operaciones">
+                            <c:if test="${session.getAttribute('idCargo') eq '2'}">
+                                <h:commandButton
+                                        style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#337ab7;border-color:#2e6da4;"
+                                        value="Modificar" action="#{editorialBeans.buscarById(e.idEditorial)}"/>
+
+                                <h:commandButton value="Eliminar"
+                                                 style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#d9534f;border-color:#d43f3a;"
+                                                 action="#{editorialBeans.eliminarEditorial()}"
+                                                 onclick="return confirmarEliminacion();">
+                                    <f:param name="idEditorial" value="#{e.idEditorial}"/>
+                                </h:commandButton>
+                            </c:if>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+
+            <p:dialog header="Datos de la Editorial" showEffect="fade" modal="true" widgetVar="manageProductDialog"
+                      resizable="false">
+                <h:form id="form">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="nombre">Nombre</p:outputLabel>
+                        <p:inputText id="nombre" value="#{editorialBeans.editorialesEntity.nombreEditorial}"
+                                     required="true"/>
+
+                        <p:outputLabel for="contacto">Contacto</p:outputLabel>
+                        <p:inputText id="contacto" value="#{editorialBeans.editorialesEntity.contacto}"
+                                     required="true"/>
+
+                        <p:outputLabel for="telefono">Teléfono</p:outputLabel>
+                        <p:inputText id="telefono" value="#{editorialBeans.editorialesEntity.telefono}"
+                                     required="true"/>
+
+                        <p:outputLabel for="direccion">Dirección</p:outputLabel>
+                        <p:inputText id="direccion" value="#{editorialBeans.editorialesEntity.direccion}"
+                                     required="true"/>
+
+                        <h:commandButton value="Guardar"
+                                         style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#5cb85c;border-color:#4cae4c"
+                                         action="#{editorialBeans.insertarEditorial()}"/>
+
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageProductDialog').hide()"
+                                         class="ui-button-secondary" type="button"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+        </div>
+    </div>
+
+    <h:outputScript>
+        function confirmarEliminacion() {
+            return confirm("¿Está seguro que desea eliminar este libro?");
+        }
+    </h:outputScript>
+</h:body>
+
+</html>

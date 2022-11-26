@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <h:outputStylesheet name="css/styles.css"/>
+    <title>Acciones</title>
+</h:head>
+
+<h:body>
+    <f:metadata>
+        <f:viewAction action="#{usuariosBeans.usuarioNoLogueado}"/>
+    </f:metadata>
+    <!-- NAVBAR -->
+    <ui:include src="nav.xhtml"/><br/><br/>
+
+    <div class="contenedor">
+        <div class="contenido">
+            <p:linkButton class="ui-button-secondary" outcome="ver_bibliotecarios" value="Regresar"
+                          style="margin-right:20px; text-decoration: none;"/>
+            <br/><br/>
+            <h:form>
+                <div class="card">
+                    <!-- PRESTAMOS APROBADOS -->
+                    <h:outputText value="Prestamos aprobados"
+                                  style="font-weight: bold; font-size: 22px;"/><br/><br/>
+
+                    <p:dataTable var="lib" value="#{usuariosBeans.verAccionesPrestadas(usuario.idUsuario)}">
+                        <p:column headerText="Código prestamo">
+                            <h:outputText value="#{lib.codigoPrestamo}"/>
+                        </p:column>
+
+                        <p:column headerText="Usuario prestatario">
+                            <h:outputText
+                                    value="#{lib.usuariosByIdUsuarioPrestatario.nombres} #{lib.usuariosByIdUsuarioPrestatario.apellidos}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha inicio">
+                            <h:outputText value="#{lib.fechaInicio}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha final">
+                            <h:outputText value="#{lib.fechaFin}"/>
+                        </p:column>
+                    </p:dataTable><br/><br/>
+
+                    <!-- PRESTAMOS CANCELADOS -->
+                    <h:outputText value="Prestamos cancelados"
+                                  style="font-weight: bold; font-size: 22px;"/><br/><br/>
+
+                    <p:dataTable var="lib" value="#{usuariosBeans.verAccionesCanceladas(usuario.idUsuario)}">
+                        <p:column headerText="Código prestamo">
+                            <h:outputText value="#{lib.codigoPrestamo}"/>
+                        </p:column>
+
+                        <p:column headerText="Usuario prestatario">
+                            <h:outputText
+                                    value="#{lib.usuariosByIdUsuarioPrestatario.nombres} #{lib.usuariosByIdUsuarioPrestatario.apellidos}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha inicio">
+                            <h:outputText value="#{lib.fechaInicio}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha final">
+                            <h:outputText value="#{lib.fechaFin}"/>
+                        </p:column>
+                    </p:dataTable><br/><br/>
+
+                    <!-- PRESTAMOS DEVUELTOS -->
+                    <h:outputText value="Prestamos devueltos"
+                                  style="font-weight: bold; font-size: 22px;"/><br/><br/>
+
+                    <p:dataTable var="lib" value="#{usuariosBeans.verAccionesDevueltas(usuario.idUsuario)}">
+                        <p:column headerText="Código prestamo">
+                            <h:outputText value="#{lib.codigoPrestamo}"/>
+                        </p:column>
+
+                        <p:column headerText="Usuario prestatario">
+                            <h:outputText
+                                    value="#{lib.usuariosByIdUsuarioPrestatario.nombres} #{lib.usuariosByIdUsuarioPrestatario.apellidos}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha inicio">
+                            <h:outputText value="#{lib.fechaInicio}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha final">
+                            <h:outputText value="#{lib.fechaFin}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+
+</html>

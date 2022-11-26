@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <h:outputStylesheet name="css/styles.css"/>
+    <title>Libros</title>
+</h:head>
+
+<h:body>
+    <f:metadata>
+        <f:viewAction action="#{usuariosBeans.usuarioNoLogueado}"/>
+    </f:metadata>
+    <!-- NAVBAR -->
+    <ui:include src="nav.xhtml"/><br/><br/>
+
+    <!-- CONTENIDO -->
+    <div class="contenedor">
+        <div class="contenido">
+            <h:outputText value="Modificar libro" style="font-weight: bold; font-size: 22px;"/><br/><br/>
+
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+
+            <h:form id="form">
+                <p:panelGrid columns="2">
+                    <p:outputLabel for="idLibro">#</p:outputLabel>
+                    <p:inputText id="idLibro" value="#{libro.idLibro}"
+                                 readonly="true"/>
+
+                    <p:outputLabel for="codigoLibro">Código libro</p:outputLabel>
+                    <p:inputText id="codigoLibro" value="#{libro.codigoLibro}"
+                                 readonly="true"/>
+
+                    <p:outputLabel for="titulo">Titulo</p:outputLabel>
+                    <p:inputText id="titulo" value="#{libro.titulo}" required="true"/>
+
+                    <p:outputLabel for="descripcion">Descripción</p:outputLabel>
+                    <p:inputText id="descripcion" value="#{libro.descripcion}"
+                                 required="true"/>
+
+                    <p:outputLabel for="autor">Autor</p:outputLabel>
+                    <p:selectOneMenu id="autor"
+                                     value="#{librosBeans.idAutorForm}">
+                        <f:selectItems value="#{autoresBeans.listaAutores()}" var="aut"
+                                       itemValue="#{aut.idAutor}" itemLabel="#{aut.nombres} #{aut.apellidos}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="editorial">Editorial</p:outputLabel>
+                    <p:selectOneMenu id="editorial"
+                                     value="#{librosBeans.idEditorialForm}">
+                        <f:selectItems value="#{editorialBeans.listaEditorial()}" var="edi"
+                                       itemValue="#{edi.idEditorial}" itemLabel="#{edi.nombreEditorial}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="genero">Género</p:outputLabel>
+                    <p:selectOneMenu id="genero"
+                                     value="#{librosBeans.idGeneroForm}">
+                        <f:selectItems value="#{generosBeans.listaGeneros()}" var="gen"
+                                       itemValue="#{gen.idGenero}" itemLabel="#{gen.nombreGenero}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="fechaEdicion">Fecha edición</p:outputLabel>
+                    <p:calendar showOn="button" id="fechaEdicion" value="#{libro.fechaEdicion}"
+                                required="true"/>
+
+                    <p:outputLabel for="isbn">ISBN</p:outputLabel>
+                    <p:inputText id="isbn" value="#{libro.isbn}"
+                                 required="true"/>
+
+                    <p:outputLabel for="paginas">Paginas</p:outputLabel>
+                    <p:inputText id="paginas" value="#{libro.paginas}"
+                                 required="true"/>
+
+                    <p:outputLabel for="ejemplares">Ejemplares</p:outputLabel>
+                    <p:inputText id="ejemplares" value="#{libro.ejemplares}"
+                                 required="true"/>
+
+                    <h:commandButton value="Modificar"
+                                     style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#5cb85c;border-color:#4cae4c"
+                                     action="#{librosBeans.modificarLibros(libro.codigoLibro, libro.titulo, libro.descripcion, libro.isbn,
+                                     libro.paginas, libro.ejemplares, libro.idLibro, libro.fechaEdicion)}"/>
+                    <p:linkButton class="ui-button-secondary" outcome="ver_libros" value="Regresar"
+                                  style="margin-right:20px;"/>
+
+                </p:panelGrid>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+
+</html>

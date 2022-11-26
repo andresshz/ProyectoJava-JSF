@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <link rel="stylesheet" href="resources/css/styles.css" />
+    <title>Title</title>
+</h:head>
+
+<h:body>
+    <f:metadata>
+        <f:viewAction action="#{usuariosBeans.usuarioNoLogueado}"/>
+    </f:metadata>
+    <!-- NAVBAR -->
+    <ui:include src="nav.xhtml"/><br/><br/>
+
+    <!-- CONTENIDO -->
+    <p:dialog header="Detalles del libro" showEffect="fade" modal="true" widgetVar="manageProductDialog"
+              resizable="false">
+        <h:form id="form_">
+            <p:panelGrid columns="2">
+
+                <p:outputLabel for="nombre">Nombre Genero</p:outputLabel>
+                <p:inputText id="nombre" value="#{generosBeans.generosEntity.nombreGenero}" required="true"/>
+
+
+                <h:commandButton value="Guardar"
+                                 style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#5cb85c;border-color:#4cae4c"
+                                 process="@parent"
+                                 action="#{generosBeans.InsertarGenero()}"/>
+
+                <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageProductDialog').hide()"
+                                 class="ui-button-secondary" type="button"/>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+
+
+    <div class="contenedor">
+        <div class="contenido">
+            <h2 style="font-weight: 600; width: 100%; text-align: center;"> Tabla Generos</h2><br/>
+            <p:commandButton value="Nuevo Genero" icon="pi pi-plus"
+                             update=":form" oncomplete="PF('manageProductDialog').show()"
+                             styleClass="ui-button-success" style="margin-right: .5rem">
+                <p:resetInput target=":form"/>
+            </p:commandButton>
+            <br/><br/>
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages><br/><br/>
+
+            <h:form id="form">
+                <p:dataTable id="tabla" var="l" value="#{generosBeans.listaGeneros()}" editable="true">
+
+                    <p:column headerText="ID">
+                        <h:outputText value="#{l.idGenero}"/>
+                    </p:column>
+
+                    <p:column headerText="Nombre Generos">
+                        <h:outputText value="#{l.nombreGenero}"/>
+                    </p:column>
+                    <p:column headerText="Opciones">
+                        <c:if test="${session.getAttribute('idCargo') eq '2'}">
+                            <h:commandButton style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;
+                line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;
+                touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;
+                user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;
+                background-color:#337ab7;border-color:#2e6da4;"
+                                             value="Modificar" action="#{generosBeans.buscarById(l.idGenero)}"/>
+                            <h:commandButton style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;
+                font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;
+                -ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;
+                -webkit-user-select:none;-moz-user-select:none;
+                -ms-user-select:none;user-select:none;background-image:none;
+                border:1px solid transparent;border-radius:4px; color:#fff;background-color:#d9534f;
+                border-color:#d43f3a;" value="Eliminar" action="#{generosBeans.eliminarGenero()}"
+                                             onclick="return confirmarEliminacion();">
+                                <f:param name="idGenero" value="#{l.idGenero}"/>
+                            </h:commandButton>
+                        </c:if>
+                    </p:column>
+
+                </p:dataTable>
+
+            </h:form>
+        </div>
+    </div>
+
+    <h:outputScript>
+        <c:if test="#{not empty flash.exito}">
+            alertify.success('#{flash.exito}');
+        </c:if>
+
+        function confirmarEliminacion(){
+        return confirm("¿Está seguro que desea eliminar este libro?");
+        }
+    </h:outputScript>
+</h:body>
+
+</html>

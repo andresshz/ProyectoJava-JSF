@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <link rel="stylesheet" href="resources/css/loader.css" />
+    <title>Inicio</title>
+</h:head>
+
+<h:body>
+    <!-- Pantalla de carga -->
+    <div class="loader">
+        <div class="loader-img">
+            <img src="resources/img/logo.png" alt="logo"/>
+        </div>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="contenedor">
+        <h2 class="titulo">Biblioteca DWF</h2>
+        <div class="contenido">
+            <div class="card">
+                <a href="LoginUsuario.xhtml">
+                    <img src="resources/img/login.png" alt="login" class="card-image"/>
+                    <h2 class="card-title">Iniciar sesión</h2>
+                </a>
+            </div>
+            <div class="card">
+                <a href="RegistrarUsuario.xhtml">
+                    <img src="resources/img/register.png" alt="register" class="card-image"/>
+                    <h2 class="card-title">Crear una cuenta</h2>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        const loader = document.querySelector(".loader");
+        window.onload = function () {
+            setTimeout(function () {
+                loader.style.opacity = "0";
+                setTimeout(function () {
+                    loader.style.display = "none";
+                }, 500);
+            }, 1500);
+        }
+    </script>
+</h:body>
+
+</html>

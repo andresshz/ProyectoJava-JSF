@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+    <h:outputStylesheet name="css/styles.css"/>
+    <title>Prestamos</title>
+</h:head>
+
+<h:body>
+    <!-- NAVBAR -->
+    <ui:include src="nav.xhtml"/><br/><br/>
+
+    <!-- CONTENIDO -->
+    <div class="contenedor">
+        <div class="contenido">
+
+            <h:outputText value="Historial de prestamos" style="font-weight: bold; font-size: 22px;"/><br/><br/>
+
+            <br/><br/>
+
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+
+            <h:form id="datos">
+                <div class="card">
+                    <p:dataTable id="dt-prestamos" widgetVar="dtPrestamos" var="pre"
+                                 value="#{prestamosBeans.listaPrestamosUsuario(session.getAttribute('id'))}"
+                                 reflow="true" styleClass="pre-table"
+                                 selection="#{prestamosBeans.listaPrestamosUsuario(session.getAttribute('id'))}"
+                                 rowKey="#{pre.idPrestamo}" paginator="true" rows="10" rowSelectMode="add"
+                                 paginatorPosition="bottom">
+
+                        <p:column headerText="ID">
+                            <h:outputText value="#{pre.idPrestamo}"/>
+                        </p:column>
+
+                        <p:column headerText="Codigo">
+                            <h:outputText value="#{pre.codigoPrestamo}"/>
+                        </p:column>
+
+                        <p:column headerText="Prestador (Bibliotecario)">
+                            <h:outputText
+                                    value="#{pre.usuariosByIdUsuarioPrestador.nombres} #{pre.usuariosByIdUsuarioPrestador.apellidos}"/>
+                        </p:column>
+
+                        <p:column headerText="Estado">
+                            <h:outputText value="#{pre.estadosByIdEstadoPrestamo.estadoPrestamo}"/>
+                        </p:column>
+
+                        <p:column headerText="Libro prestado">
+                            <h:outputText value="#{pre.librosByIdLibro.isbn} - #{pre.librosByIdLibro.titulo}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha inicio">
+                            <h:outputText value="#{pre.fechaInicio}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Fecha fin">
+                            <h:outputText value="#{pre.fechaFin}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Fecha de registro">
+                            <h:outputText value="#{pre.fechaRegistro}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Operaciones">
+                            <h:commandButton value="Eliminar"
+                                             style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#d9534f;border-color:#d43f3a;"
+                                             action="#{prestamosBeans.eliminarPrestamo(pre.idPrestamo)}"
+                                             onclick="return confirmarEliminacion();"/>
+                            <h:commandButton value="Modificar" style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;
+                line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;
+                touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;
+                user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;
+                background-color:#337ab7;border-color:#2e6da4;"
+                                             action="#{prestamosBeans.editarPrestamo(pre.idPrestamo)}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+        </div>
+    </div>
+    <h:outputScript>
+        function confirmarEliminacion() {
+            return confirm("¿Está seguro que desea eliminar esta reserva de libro?");
+        }
+    </h:outputScript>
+</h:body>
+</html>

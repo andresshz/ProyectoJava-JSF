@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <h:outputStylesheet name="css/styles.css"/>
+    <title>Libros</title>
+</h:head>
+
+<h:body>
+    <f:metadata>
+        <f:viewAction action="#{usuariosBeans.usuarioNoLogueado}"/>
+    </f:metadata>
+    <!-- NAVBAR -->
+    <ui:include src="nav.xhtml"/><br/><br/>
+
+    <!-- CONTENIDO -->
+    <div class="contenedor">
+        <div class="contenido">
+
+            <h:outputText value="Libros" style="font-weight: bold; font-size: 22px;"/><br/><br/>
+            <p:commandButton value="Nuevo libro" icon="pi pi-plus"
+                             update=":form" oncomplete="PF('manageProductDialog').show()"
+                             styleClass="ui-button-success" style="margin-right: .5rem">
+                <p:resetInput target=":form"/>
+            </p:commandButton><br/><br/>
+            <h:outputText value="*NOTA: Las imagenes se tardan en mostrar." style="color: #5e5e5e"/><br/>
+            <h:outputText value="N° de libros registrados: #{librosBeans.listaLibros(session.getAttribute('id')).size()}" style="color: #5e5e5e"/>
+            <br/><br/>
+
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+
+            <h:form id="datos">
+                <div class="card">
+                    <p:dataTable id="dt-libros" widgetVar="dtLibros" var="lib" value="#{librosBeans.listaLibros(session.getAttribute('id'))}"
+                                 reflow="true" styleClass="lib-table" selection="#{librosBeans.listaLibros()}"
+                                 rowKey="#{lib.idLibro}" paginator="true" rows="10" rowSelectMode="add"
+                                 paginatorPosition="bottom">
+
+                        <p:column headerText="Código libro">
+                            <h:outputText value="#{lib.codigoLibro}"/>
+                        </p:column>
+
+                        <p:column headerText="Imagen">
+                            <h:graphicImage value="/resources/img/#{lib.imagenLibro}"
+                                            style="width: 100px; height: 100px;"/>
+                        </p:column>
+
+                        <p:column headerText="Titulo">
+                            <h:outputText value="#{lib.titulo}"/>
+                        </p:column>
+
+                        <p:column headerText="Descripción">
+                            <h:outputText value="#{lib.descripcion}"/>
+                        </p:column>
+
+                        <p:column headerText="Autor">
+                            <h:outputText value="#{lib.autoresByIdAutor.nombres} #{lib.autoresByIdAutor.apellidos}"/>
+                        </p:column>
+
+                        <p:column headerText="Editorial">
+                            <h:outputText value="#{lib.editorialesByIdEditorial.nombreEditorial}"/>
+                        </p:column>
+
+                        <p:column headerText="Género">
+                            <h:outputText value="#{lib.generosByIdGenero.nombreGenero}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha edición">
+                            <h:outputText value="#{lib.fechaEdicion}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="ISBN">
+                            <h:outputText value="#{lib.isbn}"/>
+                        </p:column>
+
+                        <p:column headerText="Páginas">
+                            <h:outputText value="#{lib.paginas}"/>
+                        </p:column>
+
+                        <p:column headerText="Ejemplares">
+                            <h:outputText value="#{lib.ejemplares}"/>
+                        </p:column>
+
+                        <p:column headerText="Operaciones">
+                            <c:if test="${session.getAttribute('idCargo') eq '2'}">
+                                <h:commandButton
+                                        style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#337ab7;border-color:#2e6da4;"
+                                        value="Modificar" action="#{librosBeans.buscarById(lib.idLibro)}"/>
+
+                                <h:commandButton value="Eliminar"
+                                                 style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#d9534f;border-color:#d43f3a;"
+                                                 action="#{librosBeans.eliminarLibro()}"
+                                                 onclick="return confirmarEliminacion();">
+                                    <f:param name="idLibro" value="#{lib.idLibro}"/>
+                                </h:commandButton>
+                            </c:if>
+
+                            <h:commandButton
+                                    style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#001427;border-color:#001427;"
+                                    value="Ver historial" action="#{librosBeans.verHistorial(lib.idLibro)}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+
+            <p:dialog header="Detalles del libro" showEffect="fade" modal="true" widgetVar="manageProductDialog"
+                      resizable="false">
+                <h:form id="form" enctype="multipart/form-data">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="titulo">Titulo</p:outputLabel>
+                        <p:inputText id="titulo" value="#{librosBeans.librosEntity.titulo}" required="true"/>
+
+                        <p:outputLabel for="img">Imagen</p:outputLabel>
+                        <p:fileUpload id="img" value="#{librosBeans.file}" mode="simple" skinSimple="true"/>
+
+                        <p:outputLabel for="descripcion">Descripción</p:outputLabel>
+                        <p:inputText id="descripcion" value="#{librosBeans.librosEntity.descripcion}"
+                                     required="true"/>
+
+                        <p:outputLabel for="autor">Autor</p:outputLabel>
+                        <p:selectOneMenu id="autor"
+                                         value="#{librosBeans.idAutorForm}">
+                            <f:selectItems value="#{autoresBeans.listaAutores()}" var="aut"
+                                           itemValue="#{aut.idAutor}" itemLabel="#{aut.nombres} #{aut.apellidos}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="editorial">Editorial</p:outputLabel>
+                        <p:selectOneMenu id="editorial"
+                                         value="#{librosBeans.idEditorialForm}">
+                            <f:selectItems value="#{editorialBeans.listaEditorial()}" var="edi"
+                                           itemValue="#{edi.idEditorial}" itemLabel="#{edi.nombreEditorial}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="genero">Género</p:outputLabel>
+                        <p:selectOneMenu id="genero"
+                                         value="#{librosBeans.idGeneroForm}">
+                            <f:selectItems value="#{generosBeans.listaGeneros()}" var="gen"
+                                           itemValue="#{gen.idGenero}" itemLabel="#{gen.nombreGenero}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="fechaEdicion">Fecha edición</p:outputLabel>
+                        <p:calendar showOn="button" id="fechaEdicion" value="#{librosBeans.librosEntity.fechaEdicion}"
+                                    required="true" placeholder="Ej: 01/01/2022"/>
+
+                        <p:outputLabel for="isbn">ISBN</p:outputLabel>
+                        <p:inputText id="isbn" value="#{librosBeans.librosEntity.isbn}"
+                                     required="true" placeholder="Ej: 978-84-57-08989-5"/>
+
+                        <p:outputLabel for="paginas">Paginas</p:outputLabel>
+                        <p:inputText id="paginas" value="#{librosBeans.librosEntity.paginas}"
+                                     required="true"/>
+
+                        <p:outputLabel for="ejemplares">Ejemplares</p:outputLabel>
+                        <p:inputText id="ejemplares" value="#{librosBeans.librosEntity.ejemplares}"
+                                     required="true"/>
+
+                        <h:commandButton value="Guardar"
+                                         style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#5cb85c;border-color:#4cae4c"
+                                         action="#{librosBeans.insertarLibro()}"/>
+
+                        <p:commandButton value="Cancelar" icon="pi pi-times" onclick="PF('manageProductDialog').hide()"
+                                         class="ui-button-secondary" type="button"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+        </div>
+    </div>
+
+    <h:outputScript>
+        function confirmarEliminacion() {
+            return confirm("¿Está seguro que desea eliminar este libro?");
+        }
+    </h:outputScript>
+</h:body>
+
+</html>

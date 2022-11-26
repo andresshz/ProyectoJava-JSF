@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <h:outputStylesheet name="css/styles.css"/>
+    <title>Title</title>
+</h:head>
+
+<h:body>
+    <f:metadata>
+        <f:viewAction action="#{usuariosBeans.usuarioNoLogueado}"/>
+    </f:metadata>
+    <!-- NAVBAR -->
+    <ui:include src="nav.xhtml"/><br/><br/>
+
+    <div class="contenedor">
+        <div class="contenido">
+            <h2 style="width: 100%; text-align: center; font-weight: 600;">Modificar autor</h2>
+            <h:form id="formulario">
+
+                <h:inputText value="#{autoresBeans.autoresEntity.idAutor}" a:type="hidden" />
+
+                <p:panelGrid columns="2">
+
+                    <p:outputLabel for="nombres">Nombres</p:outputLabel>
+                    <p:inputText id="nombres" value="#{autoresBeans.autoresEntity.nombres}" required="true" required-message="Ingresa sus nombres"/>
+
+                    <p:outputLabel for="apellidos">Apellidos</p:outputLabel>
+                    <p:inputText id="apellidos" value="#{autoresBeans.autoresEntity.apellidos}" required="true" required-message="Ingresa sus apellidos"/>
+
+                    <p:outputLabel for="nombre">Nacionalidad</p:outputLabel>
+                    <p:inputText id="nombre" value="#{autoresBeans.autoresEntity.nacionalidad}" required="true" required-message="Ingresa su nacionalidad"/>
+
+                    <h:outputLabel>Confirmar:</h:outputLabel>
+                    <h:commandButton value="Actualizar" style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;
+                line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;
+                touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;
+                user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;
+                background-color:#337ab7;border-color:#2e6da4;" action="#{autoresBeans.modificarAutor()}"/>
+                </p:panelGrid>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>

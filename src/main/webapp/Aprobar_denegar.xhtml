@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <link rel="stylesheet" href="resources/css/styles.css" />
+    <link rel="icon" type="image/png" href="resources/img/logoIcon.png"/>
+    <title>Aprobar - Denegar</title>
+</h:head>
+
+
+<h:body>
+    <f:metadata>
+        <f:viewAction action="#{usuariosBeans.usuarioNoLogueado}"/>
+    </f:metadata>
+    <!-- NAVBAR -->
+    <ui:include src="nav.xhtml"/><br/><br/>
+
+    <div style="width: 70%; margin: 0 auto">
+        <h1 style="text-align: center; margin-bottom: 5%">Prestamos Solicitados</h1>
+
+        <p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate/>
+        </p:messages>
+
+        <h:form id="datos">
+            <div class="card">
+                <p:dataTable id="dt-prestamos" widgetVar="dtPrestamos" var="pre"
+                             value="#{prestamosBeans.listaSolicitados()}"
+                             reflow="true" styleClass="pre-table" rowKey="#{pre.idPrestamo}" paginator="true" rows="10"
+                             rowSelectMode="add"
+                             paginatorPosition="bottom">
+
+                    <p:column headerText="ID">
+                        <h:outputText value="#{pre.idPrestamo}"/>
+                    </p:column>
+
+                    <p:column headerText="Codigo">
+                        <h:outputText value="#{pre.codigoPrestamo}"/>
+                    </p:column>
+
+                    <p:column headerText="Usuario Prestatario">
+                        <h:outputText
+                                value="#{pre.usuariosByIdUsuarioPrestatario.nombres} #{pre.usuariosByIdUsuarioPrestatario.apellidos}"/>
+                    </p:column>
+
+                    <p:column headerText="Estado">
+                        <h:outputText value="#{pre.estadosByIdEstadoPrestamo.estadoPrestamo}"/>
+                    </p:column>
+
+                    <p:column headerText="Libro prestado">
+                        <h:outputText value="#{pre.librosByIdLibro.isbn} - #{pre.librosByIdLibro.titulo}"/>
+                    </p:column>
+
+                    <p:column headerText="Fecha inicio">
+                        <h:outputText value="#{pre.fechaInicio}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Fecha fin">
+                        <h:outputText value="#{pre.fechaFin}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Fecha de registro">
+                        <h:outputText value="#{pre.fechaRegistro}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Opciones">
+
+                        <h:commandButton style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;
+                line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;
+                touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;
+                user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;
+                background-color:#337ab7;border-color:#2e6da4;" value="Aceptar"
+                                         action="#{prestamosBeans.aceptarPrestamo(pre, session.getAttribute('id'))}"/>
+                        <h:commandButton style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;
+                font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;
+                -ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;
+                -webkit-user-select:none;-moz-user-select:none;
+                -ms-user-select:none;user-select:none;background-image:none;
+                border:1px solid transparent;border-radius:4px; color:#fff;background-color:#d9534f;
+                border-color:#d43f3a;" value="Cancelar"
+                                         action="#{prestamosBeans.cancelarPrestamo(pre, session.getAttribute('id'))}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </div>
+            <p:linkButton outcome="Prestamos_estado" value="Regresar" style="margin-left: 10%; margin-top: 3%" />
+        </h:form>
+
+
+    </div>
+</h:body>
+</html>

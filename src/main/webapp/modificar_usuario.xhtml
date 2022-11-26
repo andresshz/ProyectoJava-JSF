@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <h:outputStylesheet name="css/styles.css"/>
+    <title>Usuario</title>
+</h:head>
+
+<h:body>
+    <f:metadata>
+        <f:viewAction action="#{usuariosBeans.usuarioNoLogueado}"/>
+    </f:metadata>
+    <!-- NAVBAR -->
+    <ui:include src="nav.xhtml"/><br/><br/>
+
+    <!-- CONTENIDO -->
+    <div class="contenedor">
+        <div class="contenido">
+            <h:outputText value="Modificar usuario" style="font-weight: bold; font-size: 22px;"/><br/><br/>
+
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+
+            <h:form id="form">
+                <p:panelGrid columns="2">
+                    <p:outputLabel for="idUsuario">#</p:outputLabel>
+                    <p:inputText id="idUsuario" value="#{usuario.idUsuario}"
+                                 readonly="true"/>
+
+                    <p:outputLabel for="carnet">Carnet</p:outputLabel>
+                    <p:inputText id="carnet" value="#{usuario.carnet}"
+                                 readonly="true"/>
+
+                    <p:outputLabel for="cargo">Cargo</p:outputLabel>
+                    <p:selectOneMenu id="cargo"
+                                     value="#{usuariosBeans.idCargoForm}">
+                        <f:selectItems value="#{cargoUsuariosBeans.listaCargoUsuariosCrud()}" var="cu"
+                                       itemValue="#{cu.idCargoUsuario}" itemLabel="#{cu.cargoUsuario}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="nombres">Nombres</p:outputLabel>
+                    <p:inputText id="nombres" value="#{usuario.nombres}" required="true"/>
+
+                    <p:outputLabel for="apellidos">Apellidos</p:outputLabel>
+                    <p:inputText id="apellidos" value="#{usuario.apellidos}"
+                                 required="true"/>
+
+                    <p:outputLabel for="telefono">Telefono</p:outputLabel>
+                    <p:inputText id="telefono" value="#{usuario.telefono}"
+                                 required="true"/>
+
+                    <p:outputLabel for="correo">Correo</p:outputLabel>
+                    <p:inputText id="correo" value="#{usuario.correo}"
+                                 required="true"/>
+
+                    <p:outputLabel for="direccion">Direccion</p:outputLabel>
+                    <p:inputText id="direccion" value="#{usuario.direccion}"
+                                 required="true"/>
+
+                    <p:outputLabel for="contra">Contraseña</p:outputLabel>
+                    <p:password id="contra" value="#{usuario.password}" toggleMask="true"
+                                redisplay="true"/>
+
+                    <h:commandButton value="Modificar"
+                                     style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#5cb85c;border-color:#4cae4c"
+                                     action="#{usuariosBeans.modificarUsuarios(usuario.carnet, usuario.nombres, usuario.apellidos, usuario.telefono, usuario.correo, usuario.direccion, usuario.password, usuario.idUsuario)}"/>
+                </p:panelGrid>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+
+</html>

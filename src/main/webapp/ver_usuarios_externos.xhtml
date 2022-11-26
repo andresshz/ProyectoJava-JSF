@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <h:outputStylesheet name="css/styles.css"/>
+    <title>Usuarios</title>
+</h:head>
+
+<h:body>
+    <f:metadata>
+        <f:viewAction action="#{usuariosBeans.usuarioNoLogueado}"/>
+    </f:metadata>
+    <!-- NAVBAR -->
+    <ui:include src="nav.xhtml"/><br/><br/>
+
+    <!-- CONTENIDO -->
+    <div class="contenedor">
+        <div class="contenido">
+            <h:outputText value="Usuarios" style="font-weight: bold; font-size: 22px;"/><br/><br/>
+
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+
+            <h:form id="datos">
+                <div class="card">
+                    <p:dataTable value="#{usuariosBeans.listaUsuariosExternos()}" var="user" paginator="true" rows="10"
+                                 paginatorPosition="bottom">
+
+                        <p:column headerText="Carnet">
+                            <h:outputText value="#{user.carnet}"/>
+                        </p:column>
+
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{user.nombres} #{user.apellidos}"/>
+                        </p:column>
+
+                        <p:column headerText="Cargo">
+                            <h:outputText
+                                    value="#{user.cargoUsuariosEntity.cargoUsuario}"/>
+                        </p:column>
+
+                        <p:column headerText="Telefono">
+                            <h:outputText value="#{user.telefono}"/>
+                        </p:column>
+
+                        <p:column headerText="Correo">
+                            <h:outputText value="#{user.correo}"/>
+                        </p:column>
+
+                        <p:column headerText="Direccion">
+                            <h:outputText value="#{user.direccion}"/>
+                        </p:column>
+
+                        <p:column headerText="Operaciones">
+                            <h:commandButton
+                                    style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#337ab7;border-color:#2e6da4;"
+                                    value="Modificar" action="#{usuariosBeans.buscarById(user.idUsuario)}"/>
+
+                            <h:commandButton value="Eliminar"
+                                             style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#d9534f;border-color:#d43f3a;"
+                                             action="#{usuariosBeans.eliminarUsuario()}"
+                                             onclick="return confirmarEliminacion();">
+                                <f:param name="idUsuario" value="#{user.idUsuario}"/>
+                            </h:commandButton>
+
+                            <h:commandButton
+                                    style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#499F68;border-color:#499F68;"
+                                    value="Ver prestamos" action="#{usuariosBeans.historialPrestamos(user.idUsuario)}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+        </div>
+    </div>
+
+    <h:outputScript>
+        function confirmarEliminacion() {
+            return confirm("¿Está seguro que desea eliminar este libro?");
+        }
+    </h:outputScript>
+
+</h:body>
+
+</html>

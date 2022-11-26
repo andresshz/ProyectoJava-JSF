@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <h:outputStylesheet name="css/styles.css"/>
+    <title>Editoriales</title>
+</h:head>
+
+<h:body>
+    <f:metadata>
+        <f:viewAction action="#{usuariosBeans.usuarioNoLogueado}"/>
+    </f:metadata>
+    <!-- NAVBAR -->
+    <ui:include src="nav.xhtml"/><br/><br/>
+
+    <!-- CONTENIDO -->
+    <div class="contenedor">
+        <div class="contenido">
+
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+
+            <h:form id="form">
+                <p:panelGrid columns="2">
+                    <p:outputLabel for="idEditorial">#</p:outputLabel>
+                    <p:inputText id="idEditorial" value="#{editorial.idEditorial}"
+                                 readonly="true"/>
+
+                    <p:outputLabel for="nombre">Nombre Editorial</p:outputLabel>
+                    <p:inputText id="nombre" value="#{editorial.nombreEditorial}"
+                                 required="true"/>
+
+                    <p:outputLabel for="contacto">Contacto</p:outputLabel>
+                    <p:inputText id="contacto" value="#{editorial.contacto}" required="true"/>
+
+                    <p:outputLabel for="telefono">Teléfono</p:outputLabel>
+                    <p:inputText id="telefono" value="#{editorial.telefono}"
+                                 required="true"/>
+
+                    <p:outputLabel for="direccion">Dirección</p:outputLabel>
+                    <p:inputText id="direccion" value="#{editorial.direccion}"
+                                 required="true"/>
+
+                    <h:commandButton value="Modificar"
+                                     style="display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:400;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px; color:#fff;background-color:#5cb85c;border-color:#4cae4c"
+                                     action="#{editorialBeans.modificarEditorial(editorial.nombreEditorial, editorial.contacto,
+                                     editorial.telefono, editorial.direccion, editorial.idEditorial)}"/>
+                    <p:linkButton class="ui-button-secondary" outcome="ver_editoriales" value="Regresar"
+                                  style="margin-right:20px;"/>
+
+                </p:panelGrid>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+
+</html>
